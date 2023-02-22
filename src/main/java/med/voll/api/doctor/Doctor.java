@@ -2,11 +2,14 @@ package med.voll.api.doctor;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.address.Address;
+import med.voll.api.doctor.dto.DoctorRegistrationData;
+import med.voll.api.doctor.dto.DoctorUpdateData;
 
 @Entity (name = "Doctor")
 @Table (name = "doctors")
@@ -38,5 +41,19 @@ public class Doctor {
         this.speciality = data.speciality();
         this.address = new Address(data.address());
         this.phone = data.phone();
+    }
+
+    public void updateData(@Valid DoctorUpdateData data) {
+        if(data.name()!=null && !data.name().isBlank()){
+            this.name = data.name();
+        }
+
+        if(data.phone()!=null && !data.phone().isBlank()){
+            this.phone = data.phone();
+        }
+
+        if(data.address()!=null){
+            this.address = new Address(data.address());
+        }
     }
 }

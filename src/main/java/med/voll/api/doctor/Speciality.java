@@ -1,5 +1,5 @@
 package med.voll.api.doctor;
 
-enum Speciality {
+public enum Speciality {
     orthopedics, cardiology, gynecology, dermatology;
 }
