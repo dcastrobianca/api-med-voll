@@ -36,7 +36,7 @@ public class DoctorController {
 
     @GetMapping
     public Page<DoctorListData> search(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
-        return doctorRepository.findAll(page).map(DoctorListData::new);
+        return doctorRepository.findAllByActiveTrue(page).map(DoctorListData::new);
     }
 
     @PutMapping
@@ -50,6 +50,7 @@ public class DoctorController {
     @DeleteMapping ("/{id}")
     @Transactional
     public void delete(@PathVariable Long id){
-        doctorRepository.deleteById(id);
+        Doctor doctor = doctorRepository.getReferenceById(id);
+        doctor.delete();
     }
 }
