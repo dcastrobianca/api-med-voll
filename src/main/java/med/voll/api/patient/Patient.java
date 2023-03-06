@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.address.Address;
+import med.voll.api.patient.dto.PatientRegistrationData;
+import med.voll.api.patient.dto.PatientUpdateData;
 
 @Entity
 @Table (name = "patients")
@@ -52,5 +54,9 @@ public class Patient {
         if(data.phone()!= null){
             this.phone = data.phone();
         }
+    }
+
+    public void delete() {
+        this.active=false;
     }
 }

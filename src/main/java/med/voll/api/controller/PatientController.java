@@ -1,16 +1,20 @@
 package med.voll.api.controller;
 
 import med.voll.api.patient.*;
+import med.voll.api.patient.dto.PatientDetailsData;
+import med.voll.api.patient.dto.PatientListData;
+import med.voll.api.patient.dto.PatientRegistrationData;
+import med.voll.api.patient.dto.PatientUpdateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-
-import java.util.List;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/patient")
@@ -21,20 +25,37 @@ public class PatientController {
 
     @PostMapping
     @Transactional
-    public void create(@RequestBody @Valid PatientRegistrationData data){
-        repository.save(new Patient(data));
+    public ResponseEntity create(@RequestBody @Valid PatientRegistrationData data, UriComponentsBuilder uriBuilder){
+        Patient patient=new Patient(data);
+        repository.save(patient);
+        return ResponseEntity.created(uriBuilder.path("/patient/{id}").buildAndExpand(patient.getId()).toUri()).body(new PatientDetailsData(patient));
     }
 
     @GetMapping
-    public Page<PatientListData> searchAll(@PageableDefault(sort = {"name"}) Pageable page){
-        return repository.findAll(page).map(PatientListData::new);
+    public ResponseEntity<Page<PatientListData>> searchAll(@PageableDefault(sort = {"name"}) Pageable page){
+        return ResponseEntity.ok(repository.findAllByActiveTrue(page).map(PatientListData::new));
     }
 
     @PutMapping
     @Transactional
-    public void update(@RequestBody @Valid PatientUpdateData data){
+    public ResponseEntity<PatientDetailsData> update(@RequestBody @Valid PatientUpdateData data){
         Patient patient = repository.getReferenceById(data.id());
         patient.update(data);
+        return ResponseEntity.ok(new PatientDetailsData(patient));
+    }
+
+    @DeleteMapping ("/{id}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id){
+        Patient patient = repository.getReferenceById(id);
+        patient.delete();
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detail(@PathVariable Long id){
+        Patient patient = repository.getReferenceById(id);
+        return ResponseEntity.ok(new PatientDetailsData(patient));
     }
     
 }
