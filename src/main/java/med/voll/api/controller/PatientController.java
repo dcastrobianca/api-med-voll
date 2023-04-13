@@ -2,7 +2,6 @@ package med.voll.api.controller;
 
 import med.voll.api.domain.patient.Patient;
 import med.voll.api.domain.patient.PatientRepository;
-import med.voll.api.domain.patient.*;
 import med.voll.api.domain.patient.dto.PatientDetailsData;
 import med.voll.api.domain.patient.dto.PatientListData;
 import med.voll.api.domain.patient.dto.PatientRegistrationData;
@@ -27,7 +26,7 @@ public class PatientController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity create(@RequestBody @Valid PatientRegistrationData data, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<PatientDetailsData> create(@RequestBody @Valid PatientRegistrationData data, UriComponentsBuilder uriBuilder){
         Patient patient=new Patient(data);
         repository.save(patient);
         return ResponseEntity.created(uriBuilder.path("/patient/{id}").buildAndExpand(patient.getId()).toUri()).body(new PatientDetailsData(patient));
@@ -55,7 +54,7 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(@PathVariable Long id){
+    public ResponseEntity<PatientDetailsData> detail(@PathVariable Long id){
         Patient patient = repository.getReferenceById(id);
         return ResponseEntity.ok(new PatientDetailsData(patient));
     }
