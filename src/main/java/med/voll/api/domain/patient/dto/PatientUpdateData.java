@@ -1,6 +1,6 @@
-package med.voll.api.patient.dto;
+package med.voll.api.domain.patient.dto;
 
-import med.voll.api.address.AddressData;
+import med.voll.api.domain.address.AddressData;
 
 public record PatientUpdateData(
         Long id,

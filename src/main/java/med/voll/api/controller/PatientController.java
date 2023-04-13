@@ -1,10 +1,12 @@
 package med.voll.api.controller;
 
-import med.voll.api.patient.*;
-import med.voll.api.patient.dto.PatientDetailsData;
-import med.voll.api.patient.dto.PatientListData;
-import med.voll.api.patient.dto.PatientRegistrationData;
-import med.voll.api.patient.dto.PatientUpdateData;
+import med.voll.api.domain.patient.Patient;
+import med.voll.api.domain.patient.PatientRepository;
+import med.voll.api.domain.patient.*;
+import med.voll.api.domain.patient.dto.PatientDetailsData;
+import med.voll.api.domain.patient.dto.PatientListData;
+import med.voll.api.domain.patient.dto.PatientRegistrationData;
+import med.voll.api.domain.patient.dto.PatientUpdateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

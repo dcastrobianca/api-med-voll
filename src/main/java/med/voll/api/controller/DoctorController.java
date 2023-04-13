@@ -1,6 +1,6 @@
 package med.voll.api.controller;
 
-import med.voll.api.doctor.dto.DoctorDetailsData;
+import med.voll.api.domain.doctor.dto.DoctorDetailsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import med.voll.api.doctor.Doctor;
-import med.voll.api.doctor.DoctorRepository;
-import med.voll.api.doctor.dto.DoctorListData;
-import med.voll.api.doctor.dto.DoctorRegistrationData;
-import med.voll.api.doctor.dto.DoctorUpdateData;
+import med.voll.api.domain.doctor.Doctor;
+import med.voll.api.domain.doctor.DoctorRepository;
+import med.voll.api.domain.doctor.dto.DoctorListData;
+import med.voll.api.domain.doctor.dto.DoctorRegistrationData;
+import med.voll.api.domain.doctor.dto.DoctorUpdateData;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
@@ -66,7 +66,6 @@ public class DoctorController {
     public ResponseEntity<DoctorDetailsData> detailById(@PathVariable Long id){
         Doctor doctor = doctorRepository.getReferenceById(id);
         return ResponseEntity.ok(new DoctorDetailsData(doctor));
-
     }
 
 }
