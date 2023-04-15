@@ -1,9 +1,9 @@
-package med.voll.api.infra.dto;
+package med.voll.api.infra.exception.dto;
 
 import org.springframework.validation.FieldError;
 
 public record ValidationErrorData(String field, String message) {
-    public ValidationErrorData(FieldError error){
+    public ValidationErrorData(FieldError error) {
         this(error.getField(), error.getDefaultMessage());
     }
 }
