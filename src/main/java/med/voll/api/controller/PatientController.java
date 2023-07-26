@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import med.voll.api.domain.patient.Patient;
 import med.voll.api.domain.patient.PatientRepository;
 import med.voll.api.domain.patient.dto.PatientDetailsData;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/patient")
+@SecurityRequirement(name = "bearer-key")
 public class PatientController {
 
     @Autowired
