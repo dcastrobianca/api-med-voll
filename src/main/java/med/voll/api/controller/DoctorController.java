@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import med.voll.api.domain.doctor.DoctorService;
 import med.voll.api.domain.doctor.dto.DoctorDetailsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,12 +35,14 @@ public class DoctorController {
     @Autowired
     private DoctorRepository doctorRepository;
 
+    @Autowired
+    private DoctorService service;
+
     @PostMapping
     @Transactional
     public ResponseEntity<DoctorDetailsData> create(@RequestBody @Valid DoctorRegistrationData data, UriComponentsBuilder uriBuilder){
-        Doctor doctor = new Doctor(data);
-        doctorRepository.save(doctor);
-        return ResponseEntity.created(uriBuilder.path("/doctors/{id}").buildAndExpand(doctor.getId()).toUri()).body(new DoctorDetailsData(doctor));
+        DoctorDetailsData doctor =service.create(data);
+        return ResponseEntity.created(uriBuilder.path("/doctors/{id}").buildAndExpand(doctor.id()).toUri()).body(doctor);
     }
 
     @GetMapping
